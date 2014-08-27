@@ -1,0 +1,10 @@
+<% @title = "Cats From the Future on Cats on Cats" %>
+
+
+<ul>
+  <% @cats.each do |cat| %>
+    <li>
+      <a href='<%= cat_url(cat) %>'><%= cat.name %></a>
+    </li>
+  <% end %>
+</ul>

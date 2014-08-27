@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NinetyNineCats</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+
+
+
+<body>
+
+  <div class="container">
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        
+        <li class="<%= 'active' if cats_url == request.original_url %>"><a              href="<%= cats_url %>">Cats</a></li>
+        
+        <li class="<%= 'active' if cat_rental_requests_url ==                           request.original_url %>"><a href="<%= cat_rental_requests_url                   %>">Current Requests</a></li>
+        
+        <li class="<%= 'active' if new_cat_url == request.original_url %>"><a             href="<%= new_cat_url %>">Design Cat</a></li>
+        
+        <li class="<%= 'active' if new_cat_rental_request_url ==                        request.original_url %>"><a href="<%= new_cat_rental_request_url                %>">Request Cat</a></li>
+        
+      </ul>
+      <h3 class="text-muted">Cat Futures</h3>
+    </div>
+    
+    <h2><%= @title %></h2>
+    <%= yield %>
+
+
+    <div class="footer">
+      <p>&copy; CatsAccademy 2025</p>
+    </div>
+
+  </div> <!-- /container -->
+
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
+
+
+</html>

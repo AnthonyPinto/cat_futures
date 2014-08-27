@@ -1,0 +1,72 @@
+<h1><%= @cat.name %></h1>
+
+<h3>Profile</h3>
+
+<table>
+  <tr>
+    <td>Age:</td>
+    <td><%=@cat.age%></td>
+  </tr>
+  <tr>
+    <td>Birth Date:</td>
+    <td><%=@cat.birth_date%></td>
+  </tr>
+  <tr>
+    <td>Color:</td>
+    <td><%=@cat.color%></td>
+  </tr>
+  <tr>
+    <td>Sex:</td>
+    <td><%=@cat.sex%></td>
+  </tr>
+</table>
+
+<!--<ul class='cat-facts' >
+  <li>
+    <div class='fact-name'></div>
+    <div class='fact-value'></div>
+  </li>
+  <li>
+
+  </li>
+  <li>
+
+  </li>
+  <li>
+
+  </li>
+</ul> -->
+
+<h4>Catch Phrase</h4>
+<p><%= @cat.description %> </p>
+
+<% if !@requests.empty? %>
+<h3>Rental Requests</h3>
+<table>
+  <tr>
+    <th width= '100px'>Start Date</th>
+    <th width= '100px'>End Date</th>
+    <th width= '100px'>Status</th>
+    <th width= '100px'Action</th>
+  </tr>
+  
+  <% @requests.each do |request| %>
+
+  <tr>
+    <td><%= request.start_date %></td>
+    <td><%= request.end_date %></td>
+    <td><%= request.status %></td>
+    
+      <% if request.status == 'PENDING' %>
+      <td><%= button_to "Approve", approve_request_url(request), method: :patch %></td>
+      <td><%= button_to "Deny", deny_request_url(request), method: :patch %></td>
+      <% end %>
+    
+  </tr>
+  <% end %>
+</table>
+<br>
+<% end %>
+<a href= <%= edit_cat_url(@cat) %>>Modify this cat!</a>
+<br><br>
+<a href= <%= cats_url %>>Return To The Future of Cats!</a>

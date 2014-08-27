@@ -1,0 +1,77 @@
+<% if cat.persisted? %>
+  <form action = "<%= cat_url(cat) %>" method='post'>
+    <input type='hidden' name='_method' value='PATCH'>
+<% else %>
+  <form action = "<%= cats_url %>" method='post'>
+<% end %>
+  
+  <!-- Name -->
+  <label for="cat_name">Name</label>
+  <input 
+    type="text" 
+    name="cat[name]" 
+    id="cat_name" 
+    value="<%= cat.name || Faker::Name.name %>">
+  <br><br>
+    
+  <!-- birth date -->
+  <label for="cat_birth_date">Birth date</label>
+  <input 
+    type="date" 
+    name="cat[birth_date]" 
+    id="cat_birth_date" 
+    value="<%= cat.birth_date %>">
+  <br><br>
+  
+  <!-- Age -->
+  <label for="cat_age">Age</label>
+  <input 
+    type="text" 
+    name="cat[age]" 
+    id="cat_age" 
+    value="<%= cat.age %>">
+  <br><br>  
+  
+  <!-- Sex -->
+  <input type="radio" name="cat[sex]" id="cat_sex_female" value="F"
+  <% if cat.sex == 'F' %>
+    checked
+  <% end %>
+  >
+  <label for="cat_sex_female">Female</label>
+  <br>
+
+  <input type="radio" name="cat[sex]" id="cat_sex_male" value="M"
+  <% if cat.sex == 'M' %>
+    checked
+  <% end %>
+  >
+  <label for="cat_sex_male">Male</label>
+  <br><br>
+  
+  <!-- Color -->
+  <label for="cat_color">Color</label>
+  <!-- dropdown -->
+  <select name="cat[color]" id="cat_color" value="<%= cat.color %>">
+    <% 10.times do %>
+      <% if cat.color %>
+        <% color = cat.color  %>
+        <% cat.color = nil %>
+      <% else %>
+        <% color = "#{Faker::Hacker.noun} #{Faker::Commerce.color}".titleize %>
+      <% end %>
+        <option value="<%= color %>"><%= color %></option>
+    <% end %>
+  </select>
+  <br><br>
+  
+  <label for="cat_description">Catch Phrase</label>
+  <textarea 
+    name="cat[description]" 
+    id="cat_description"
+    ><%= cat.description || Faker::Hacker.say_something_smart %></textarea>
+  <br><br>
+  
+  
+  <input type="submit" value="Save Cat">
+</form>
