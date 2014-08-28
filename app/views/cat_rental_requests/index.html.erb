@@ -1,12 +1,10 @@
 <h1>Cat Rental Requests</h1>
 
 <ul>
-<% @cat_rental_requests.each do |request| %>
-  <li class='request-item'>
-    <h3><%= request.cat.name %></h3>
-    <p>START DATE: <%= request.start_date %></p>
-    <%#"#{request.cat.name} START DATE: #{request.start_date}
-    END DATE: #{request.end_date} APPROVAL:#{request.status}"%>
-  </li>
-<% end %>
+  <% @cat_rental_requests.each do |request| %>
+    <li class='request-item'>
+      <h3><%= request.cat.name %></h3>
+      <p>START DATE: <%= request.start_date %></p>
+    </li>
+  <% end %>
 </ul>

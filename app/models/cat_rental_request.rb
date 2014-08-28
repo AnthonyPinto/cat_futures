@@ -12,12 +12,14 @@
 #
 
 class CatRentalRequest < ActiveRecord::Base
-  validates :cat_id, :start_date, :end_date, presence: true
+  validates :cat_id, :user_id, :start_date, :end_date, presence: true
   validate :cat_is_available
   after_initialize :set_status
   
   def cat_is_available
-    overlapping_approved_requests.empty?
+    unless overlapping_approved_requests.empty?
+      errors[:Schedule] = "has conflicts"
+    end
   end
   
   def approve!
@@ -42,10 +44,7 @@ class CatRentalRequest < ActiveRecord::Base
   def overlapping_requests
     CatRentalRequest
       .where(cat_id: self.cat_id)
-      .where(
-        "(start_date BETWEEN :self_start_date AND :self_end_date)
-        OR
-        (end_date BETWEEN :self_start_date AND :self_end_date)",
+      .where("(start_date < :self_end_date) AND (end_date > :self_start_date)",
         self_start_date: self.start_date, 
         self_end_date: self.end_date)
       .where.not(id: self.id)
@@ -59,6 +58,13 @@ class CatRentalRequest < ActiveRecord::Base
     :cat,
     class_name: "Cat",
     foreign_key: :cat_id,
+    primary_key: :id
+  )
+  
+  belongs_to(
+    :user,
+    class_name: "User",
+    foreign_key: :user_id,
     primary_key: :id
   )
 

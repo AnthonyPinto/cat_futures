@@ -1,4 +1,8 @@
 class CatsController < ApplicationController
+  # helper_method :users_cat?
+  before_action :require_login, only: [:new, :create, :edit, :update]
+  before_action :users_cat?, only: [:edit, :update]
+  
   def index
     @cats = Cat.all
   end
@@ -14,6 +18,7 @@ class CatsController < ApplicationController
   
   def create
     @cat = Cat.new(cat_params)
+    @cat.user_id = current_user.id
     if @cat.save
       redirect_to cat_url(@cat)
     else
@@ -31,6 +36,13 @@ class CatsController < ApplicationController
       redirect_to cat_url(@cat)
     else
       render :new
+    end
+  end
+
+  def users_cat?
+    @cat = Cat.find(params[:id])
+    unless @cat && current_user.id == @cat.user_id
+      redirect_to cat_url(@cat)
     end
   end
   

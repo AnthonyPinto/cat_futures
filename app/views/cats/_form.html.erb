@@ -4,6 +4,12 @@
 <% else %>
   <form action = "<%= cats_url %>" method='post'>
 <% end %>
+
+  <input
+    name="authenticity_token"
+    type="hidden"
+    value="<%= form_authenticity_token %>"
+  >
   
   <!-- Name -->
   <label for="cat_name">Name</label>
@@ -33,18 +39,22 @@
   <br><br>  
   
   <!-- Sex -->
-  <input type="radio" name="cat[sex]" id="cat_sex_female" value="F"
-  <% if cat.sex == 'F' %>
-    checked
-  <% end %>
+  <input
+    type="radio"
+    name="cat[sex]"
+    id="cat_sex_female"
+    value="F"
+    <% "checked" if cat.sex == 'F' %>
   >
   <label for="cat_sex_female">Female</label>
   <br>
 
-  <input type="radio" name="cat[sex]" id="cat_sex_male" value="M"
-  <% if cat.sex == 'M' %>
-    checked
-  <% end %>
+  <input
+    type="radio"
+    name="cat[sex]"
+    id="cat_sex_male"
+    value="M"
+    <% "checked" if cat.sex == 'M' %>
   >
   <label for="cat_sex_male">Male</label>
   <br><br>
@@ -60,7 +70,7 @@
       <% else %>
         <% color = "#{Faker::Hacker.noun} #{Faker::Commerce.color}".titleize %>
       <% end %>
-        <option value="<%= color %>"><%= color %></option>
+        <option value="<%= color %>" ><%= color %></option>
     <% end %>
   </select>
   <br><br>
@@ -69,7 +79,8 @@
   <textarea 
     name="cat[description]" 
     id="cat_description"
-    ><%= cat.description || Faker::Hacker.say_something_smart %></textarea>
+    ><%= cat.description || Faker::Hacker.say_something_smart %>
+  </textarea>
   <br><br>
   
   

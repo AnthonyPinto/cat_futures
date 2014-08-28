@@ -35,6 +35,7 @@ group :doc do
 end
 
 group :development do
+  gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
   gem 'quiet_assets'
@@ -43,7 +44,7 @@ end
 #gem "twitter-bootstrap-rails"
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'bcrypt'
 
 # Use unicorn as the app server
 # gem 'unicorn'

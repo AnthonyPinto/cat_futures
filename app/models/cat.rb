@@ -14,7 +14,14 @@
 #
 
 class Cat < ActiveRecord::Base
-  validates :age,:birth_date, :color, :name, :sex, :description, presence: true
+  validates :age,:birth_date, :color, :name, :sex, :description, :user_id, presence: true
+  
+  belongs_to(
+    :user,
+    class_name: 'User',
+    foreign_key: :user_id,
+    primary_key: :id
+  )
   
   has_many(
     :rental_requests,

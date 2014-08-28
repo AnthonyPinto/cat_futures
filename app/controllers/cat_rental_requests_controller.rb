@@ -1,11 +1,14 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :require_login
+  before_action :users_cat?, only: [:approve, :deny]
+  
   def new
     @cats = Cat.all
     @cat_rental_request = CatRentalRequest.new()
   end
 
   def show
-    @cat_rental_request = CatRentalRequest.find(params[:id])
+    @cat_rental_request = CatRentalRequest.find(params[:id]).includes(:user)
   end
 
   def index
@@ -13,11 +16,13 @@ class CatRentalRequestsController < ApplicationController
   end
 
   def create
-    @cat_rental_requests = CatRentalRequest.new(cat_rental_requests_params)
-    if @cat_rental_requests.save
-      redirect_to cat_url(@cat_rental_requests.cat_id)
+    @cat_rental_request = CatRentalRequest.new(cat_rental_requests_params)
+    @cat_rental_request.user_id = current_user.id
+    if @cat_rental_request.save
+      redirect_to cat_url(@cat_rental_request.cat_id)
     else
-      render :new
+      flash[:errors] = @cat_rental_request.errors.full_messages
+      redirect_to new_cat_rental_request_url
     end
   end
   
@@ -33,6 +38,14 @@ class CatRentalRequestsController < ApplicationController
     cat_rental_request = CatRentalRequest.find(params[:id])
     cat_rental_request.deny!
     redirect_to cat_url(cat_rental_request.cat_id)
+  end
+  
+  def users_cat?
+     @cat_rental_request = CatRentalRequest.find(params[:id])
+     cat = @cat_rental_request.cat
+    unless cat && cat.user_id == current_user.id
+      redirect_to cat_url(cat)
+    end
   end
   
   private
